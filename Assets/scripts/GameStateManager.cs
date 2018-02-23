@@ -23,12 +23,17 @@ public class GameStateManager : MonoBehaviour
 
     private int score; // Score du joueur, TODO ?
     public GameObject WinPannel;
+    public GameObject LoosePannel;
+    //public GameObject timer;
+
     public kangooscript player;
 
     private void Awake()
     {
         if (instance == null)
             instance = this;
+
+
         else if (instance != this)
             Destroy(gameObject);
     }
@@ -43,12 +48,25 @@ public class GameStateManager : MonoBehaviour
         switch (currentState)
         {
             case GameState.Playing:
+
+                if (Timer.Timercount <= 0)
+                {
+                    ChangeState(GameState.GameOver);
+                }
+
+
                 break;
             case GameState.Victory:
                 if (player.IsPressingLeftButton(true) || player.IsPressingRightButton(true))
                     ChangeState(GameState.Playing);
+                Timer.Timercount = 20;
                 break;
             case GameState.GameOver:
+                if (player.IsPressingLeftButton(true) || player.IsPressingRightButton(true))
+                    ChangeState(GameState.Playing);
+                // NOUVEAU TIMER A CHAQUE RESPAWN
+                Timer.Timercount = 20;
+
                 break;
             default:
                 break;
@@ -63,7 +81,9 @@ public class GameStateManager : MonoBehaviour
                 currentState = GameState.Playing;
                 if (WinPannel)
                     WinPannel.SetActive(false);
-                
+                if (LoosePannel)
+                    LoosePannel.SetActive(false);
+
                 score = 0;
                 player.Init();
                 break;
@@ -71,9 +91,15 @@ public class GameStateManager : MonoBehaviour
                 currentState = GameState.Victory;
                 if (WinPannel)
                     WinPannel.SetActive(true);
+                Timer.Timercount = 1000;
 
                 break;
             case GameState.GameOver:
+                currentState = GameState.GameOver;
+                if (LoosePannel)
+                    LoosePannel.SetActive(true);
+                Timer.Timercount = 1000;
+
                 break;
             default:
                 break;

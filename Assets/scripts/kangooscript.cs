@@ -32,7 +32,7 @@ public class kangooscript : MonoBehaviour
     {
         wannaJump = false;
         isGoingRight = 1;
-        transform.position = new Vector3(0, 2, 0);
+        transform.position = new Vector3(0, 1, 0);
         if (rb)
             rb.velocity = Vector3.zero;
     }
@@ -137,5 +137,19 @@ public class kangooscript : MonoBehaviour
     {
         if (collision.gameObject.layer == 8 && collision.transform.position.y < transform.position.y)
             isGrounded = true;
+
+
+
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "bonus")
+            Timer.Timercount += 5;
+        
+    }
+
+        
+        
+    
 }
