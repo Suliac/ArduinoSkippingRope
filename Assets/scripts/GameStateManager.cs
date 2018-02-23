@@ -59,11 +59,16 @@ public class GameStateManager : MonoBehaviour
             case GameState.Victory:
                 if (player.IsPressingLeftButton(true) || player.IsPressingRightButton(true))
                     ChangeState(GameState.Playing);
+                // NOUVEAU TIMER A CHAQUE RESPAWN
+                Bonuscript.restart = true;
+                
                 Timer.Timercount = 20;
                 break;
             case GameState.GameOver:
                 if (player.IsPressingLeftButton(true) || player.IsPressingRightButton(true))
                     ChangeState(GameState.Playing);
+                Bonuscript.restart = true;
+                
                 // NOUVEAU TIMER A CHAQUE RESPAWN
                 Timer.Timercount = 20;
 
